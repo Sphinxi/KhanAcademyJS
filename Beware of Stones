@@ -1,0 +1,59 @@
+background(219, 255, 255);
+//ground
+noStroke();
+fill(59, 148, 24);
+rect(0,330,400,80);
+fill(174, 180, 214);
+triangle(200, 28, 350, 150, 50, 150);
+
+fill(255, 255, 255);
+rect(60, 150, 280, 207);
+
+//door
+stroke(3, 10, 8);
+fill(120, 80, 19);
+rect(180, 280, 40, 77);
+
+stroke(3, 10, 8);
+for(var topX=49;topX<=350;topX+=50) {
+line(200,30,topX,150);
+}
+fill(153, 240, 218);
+//skylights
+for(var windowX = 67; windowX<=320; windowX+=45) {
+   rect(windowX,160,40,70); 
+}
+//broken window
+stroke(255, 255, 255);
+fill(255, 255, 255);
+   rect(247,160,40,70); 
+
+fill(153, 240, 218);
+//window shards
+   triangle(247,160,247,233,280,233);
+      triangle(247,160,256,171,276,160);
+         triangle(280,199,268,197,280,233);
+            triangle(280,160,264,188,280,199);
+stroke(3, 10, 8);
+//ground windows
+for(var windowX = 80; windowX<=320; windowX+=180) {
+   rect(windowX,282,64,70); 
+}
+textSize(24);
+text("BEWARE OF STONES",75,264);
+var stone1 = getImage("cute/Rock");
+var ohNo = getImage("creatures/OhNoes");
+image(ohNo, 19,80);
+fill(0, 0, 0);
+textSize(25);
+text("Oh noes!",143,95,112,40);
+for(var stoneX = -4; stoneX<158;stoneX+=30) {
+    for (var stoneY = 330; stoneY <398; stoneY +=18) {
+        image(stone1,stoneX,stoneY,36,36);
+    }
+}
+for(var stoneX = 220; stoneX<385;stoneX+=30) {
+    for (var stoneY = 330; stoneY <398; stoneY +=18) {
+        image(stone1,stoneX,stoneY,36,36);
+    }
+}

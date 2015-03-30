@@ -1,0 +1,88 @@
+//Wave Adapted from AqualineMirage's A Wavy Ocean
+//Physics Adapted from Dan Shiffman, natureofcode.com
+
+var Mover = function() {
+  this.position = new PVector(random(width), random(height/3));
+  this.velocity = new PVector(0, 0);
+  this.acceleration = new PVector(0, 0);
+};
+
+Mover.prototype.update = function() {
+    var mouse = new PVector(mouseX, (mouseY*3/2)+40);
+    var dir = PVector.sub(mouse, this.position);
+    dir.normalize();
+    dir.mult(0.8);
+    this.acceleration = dir;
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(10);
+    this.position.add(this.velocity);
+};
+
+Mover.prototype.display = function() {
+  stroke(0);//change the length, loop size and tail size of the fish shape
+var fishsize = 20;
+var curvature = 50;
+var loc = 4;
+    fishsize = 19;
+//colored red on left, blue on right
+    noStroke();
+    var purple = this.position.x * 255/400;
+    fill(255-purple, 0, purple);
+//Bezier, because flapping birds took too many triangles
+    bezier(loc + this.position.x ,loc + this.position.y,curvature+ this.position.x,curvature+ this.position.y,curvature+ this.position.x,-fishsize+ this.position.y,loc + this.position.x,fishsize + this.position.y);
+};
+
+Mover.prototype.checkEdges = function() {
+
+  if (this.position.x > width) {
+    this.position.x = 0;
+  } 
+  else if (this.position.x < 0) {
+    this.position.x = width;
+  }
+
+  if (this.position.y > height) {
+    this.position.y = 0;
+  } 
+  else if (this.position.y < 0) {
+    this.position.y = height;
+  }
+};
+
+var movers = [];
+//number of fishes
+for (var i = 0; i < 20; i++) {
+    movers[i] = new Mover(); 
+}
+
+draw = function() {
+var   opaq = mouseY/height;
+background(131*opaq, 238*opaq, 242*opaq);
+// change this to make the waves more lumpy or flat or what ever...
+var noiseScale=0.01;
+
+// change this to change the speed of the waves.
+ var waveSpeed = 0.09;
+var wave1 = random(0, 100);
+var wave2 = random(0, 100);
+  
+    wave1 = wave1 + waveSpeed;
+    wave2 = wave2 + waveSpeed;
+  for(var x=0; x < width; x++) {
+    var noiseVal = noise((wave1+x)*noiseScale, wave1*noiseScale);
+    var noiseVal2 = noise((wave2+x)*noiseScale, wave2*noiseScale);
+    // change this to change the color of the wave.
+    stroke(50, noiseVal*236, 650);
+  /// and change this to make the waves higher on the screen or lower on the screen.
+    line(x, mouseY-30+noiseVal*114, x, height);
+    
+    stroke(50,noiseVal*189, 671);
+    
+    line(x-5, mouseY-45+noiseVal2*210, x, height);
+  }
+
+    for (var i = 0; i < movers.length; i++) {
+        movers[i].update();
+        movers[i].display(); 
+    }
+};
